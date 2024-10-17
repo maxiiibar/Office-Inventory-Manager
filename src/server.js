@@ -1,5 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import logger from "./errors/Logger.js";
 import morgan from "morgan";
 import helmet from "helmet";
 import { __dirname } from "./utils/utils.js";

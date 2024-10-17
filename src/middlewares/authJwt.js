@@ -4,7 +4,7 @@ const httpResponse = new HttpResponse();
 import UserService from "../services/userServices.js";
 const userServices = new UserService();
 import config from "../../config.js";
-import logger from "../errors/devLogger.js";
+import logger from "../errors/Logger.js";
 
 /**
  * Middleware que verifica el token de jwt es valido a través de las cookies
