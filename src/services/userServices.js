@@ -10,11 +10,14 @@ export default class UserServices extends Services {
     super(userDao);
   }
 
-  generateToken(user, time = "5m") {
+  generateToken(user, time = "15m") {
     const payLoad = {
       userId: user._id,
     };
-    return jwt.sign(payLoad, process.env.SECRET_KEY, { expiresIn: time });
+    return jwt.sign(payLoad, process.env.SECRET_KEY, {
+      expiresIn: time,
+      algorithm: "HS256",
+    });
   }
 
   async register(user) {
@@ -22,29 +25,14 @@ export default class UserServices extends Services {
       const { email, password } = user;
       const userExists = await this.dao.getByEmail(email);
       if (userExists) return null;
-      const cartUser = await cartDao.create();
-      if (
-        email === process.env.EMAIL_ADMIN &&
-        password === process.env.PASS_ADMIN
-      ) {
-        const newUser = await this.dao.create({
-          ...user,
-          password: createHash(password),
-          role: "admin",
-          cart: cartUser._id,
-          lastConnection: new Date(),
-        });
-        return newUser;
-      } else {
-        const newUser = await this.dao.create({
-          ...user,
-          password: createHash(password),
-          cart: cartUser._id,
-          lastConnection: new Date(),
-        });
-        return newUser;
-      }
-    } catch (error) {}
+      const newUser = await this.dao.create({
+        ...user,
+        password: createHash(password),
+      });
+      return newUser;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   async login(user) {
@@ -54,8 +42,6 @@ export default class UserServices extends Services {
       if (!userExists) return null;
       const passwordValidated = isValidPassword(password, userExists.password);
       if (!passwordValidated) return null;
-      if (userExists && passwordValidated)
-        await this.updateLastConnection(userExists._id);
       return this.generateToken(userExists);
     } catch (error) {
       throw new Error(error);

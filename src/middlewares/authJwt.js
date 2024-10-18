@@ -3,7 +3,7 @@ import HttpResponse from "../utils/httpResponse.js";
 const httpResponse = new HttpResponse();
 import UserService from "../services/userServices.js";
 const userServices = new UserService();
-import config from "../../config.js";
+import "dotenv/config";
 import logger from "../errors/Logger.js";
 
 /**
@@ -18,14 +18,14 @@ export const checkAuth = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) return httpResponse.Unauthorized(res, "You need to log in.");
-    const decode = jwt.verify(token, config.SECRET_KEY);
+    const decode = jwt.verify(token, process.env.SECRET_KEY, { algorithms: ['HS256'] });
     const user = await userServices.getById(decode.userId);
     if (!user) return httpResponse.NotFound(res, "User not found");
     const now = Math.floor(Date.now() / 1000);
     const tokenExp = decode.exp;
     const timeUntilExp = tokenExp - now;
-    if (timeUntilExp <= 300) {
-      const newToken = userServices.generateToken(user, "5m");
+    if (timeUntilExp <= 900) {
+      const newToken = userServices.generateToken(user, "15m");
       logger.info(">>>>>>SE REFRESCÓ EL TOKEN");
       res.cookie("token", newToken, { httpOnly: true, secure: true });
     }
