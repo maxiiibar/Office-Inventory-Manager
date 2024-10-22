@@ -2,7 +2,7 @@ import Controller from "./classController.js";
 import UserServices from "../services/userServices.js";
 const userService = new UserServices();
 import HttpResponse from "../utils/httpResponse.js";
-import { sendMail } from "../services/emailServices.js";
+// import { sendMail } from "../services/emailServices.js";
 const httpResponse = new HttpResponse();
 
 export default class UserController extends Controller {
@@ -42,34 +42,34 @@ export default class UserController extends Controller {
     }
   };
 
-  generateResetPass = async (req, res, next) => {
-    try {
-      const user = req.user;
-      const token = await this.service.generateResetPass(user);
-      if (token) {
-        await sendMail(user, "resetPass", token);
-        res.cookie("tokenpass", token);
-        httpResponse.Ok(res, 'Email "reset pass" sent ok');
-      } else httpResponse.BadRequest(res, 'Error sending email "reset pass"');
-    } catch (error) {
-      next(error);
-    }
-  };
+  // generateResetPass = async (req, res, next) => {
+  //   try {
+  //     const user = req.user;
+  //     const token = await this.service.generateResetPass(user);
+  //     if (token) {
+  //       await sendMail(user, "resetPass", token);
+  //       res.cookie("tokenpass", token);
+  //       httpResponse.Ok(res, 'Email "reset pass" sent ok');
+  //     } else httpResponse.BadRequest(res, 'Error sending email "reset pass"');
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // };
 
-  updatePass = async (req, res, next) => {
-    try {
-      const user = req.user;
-      const { password } = req.body;
-      const { tokenpass } = req.cookies;
-      if (!tokenpass) return httpResponse.Unauthorized(res, token);
-      const updPass = await this.service.updatePass(password, user);
-      if (!updPass) httpResponse.BadRequest(res, "Can't be the same password");
-      res.clearCookie("tokenpass");
-      httpResponse.Ok(res, updPass);
-    } catch (error) {
-      next(error);
-    }
-  };
+  // updatePass = async (req, res, next) => {
+  //   try {
+  //     const user = req.user;
+  //     const { password } = req.body;
+  //     const { tokenpass } = req.cookies;
+  //     if (!tokenpass) return httpResponse.Unauthorized(res, token);
+  //     const updPass = await this.service.updatePass(password, user);
+  //     if (!updPass) httpResponse.BadRequest(res, "Can't be the same password");
+  //     res.clearCookie("tokenpass");
+  //     httpResponse.Ok(res, updPass);
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // };
 
   logOut = async (req, res, next) => {
     try {
