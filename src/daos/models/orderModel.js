@@ -1,22 +1,22 @@
 import { Schema, model, Types } from "mongoose";
 
-const OrderFormSchema = new Schema({
+const OrderSchema = new Schema({
   devices: {
     type: [
       {
         device: {
           type: Types.ObjectId,
-          ref: "Devices",
+          ref: "devices",
           required: true,
         },
         secretariat: {
           type: Types.ObjectId,
-          ref: "Secretariat",
-          default: null
+          ref: "secretariats",
+          default: null,
         },
         placementDate: {
           type: Date,
-          default: null
+          default: null,
         },
       },
     ],
@@ -24,12 +24,22 @@ const OrderFormSchema = new Schema({
   },
   supplier: {
     type: Types.ObjectId,
-    ref: "Proovedor",
+    ref: "suppliers",
     required: true,
   },
   date: {
     type: Date,
   },
+  user: {
+    type: Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["pendiente", "en stock", "colocado"],
+    default: "pendiente",
+  },
 });
 
-export const OrderFormModel = model("order_form", OrderFormSchema);
+export const OrderModel = model("orders", OrderSchema);

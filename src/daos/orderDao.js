@@ -1,9 +1,9 @@
 import MongoDao from "./mongoDao.js";
-import { OrderFormModel } from "./models/OrderFormModel.js";
+import { OrderModel } from "./models/orderModel.js";
 
-export default class OrderFormDao extends MongoDao {
+export default class OrderDao extends MongoDao {
   constructor() {
-    super(OrderFormModel);
+    super(OrderModel);
   }
 
   async getById(id) {
@@ -22,12 +22,12 @@ export default class OrderFormDao extends MongoDao {
     }
   }
 
-  async addDeviceToOrderForm(idOrder, idDevice ){
+  async addDeviceToOrder(idOrder, idDevice) {
     try {
-      const orderForm = await this.getById(idOrder);
-      orderForm.devices.push({device: idDevice});
-      await orderForm.save();
-      return orderForm;
+      const order = await this.getById(idOrder);
+      order.devices.push({ device: idDevice });
+      await order.save();
+      return order;
     } catch (error) {
       throw new Error(error);
     }

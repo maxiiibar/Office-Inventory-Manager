@@ -8,15 +8,15 @@ const SecretariaSchema = new Schema({
   impresoras: [
     {
       type: Types.ObjectId,
-      ref: 'Impresora',
+      ref: "Impresora",
     },
   ],
   notasDePedido: [
     {
       type: Types.ObjectId,
-      ref: 'NotaPedido',
+      ref: "NotaPedido",
     },
   ],
 });
 
-export const SecretariaModel = model('Secretaria', SecretariaSchema);
+export const SecretariaModel = model("Secretaria", SecretariaSchema);
