@@ -32,4 +32,12 @@ export default class OrderDao extends MongoDao {
       throw new Error(error);
     }
   }
+
+  async changeToInStock(idOrder, obj) {
+    try {
+      return await this.update(idOrder, obj);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
