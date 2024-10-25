@@ -29,6 +29,7 @@ const OrderSchema = new Schema({
   },
   date: {
     type: Date,
+    default: Date.now,
   },
   user: {
     type: Types.ObjectId,

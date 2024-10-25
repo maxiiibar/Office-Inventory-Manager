@@ -33,9 +33,33 @@ export default class OrderDao extends MongoDao {
     }
   }
 
-  async changeToInStock(idOrder, obj) {
+  async changeToInStock(idOrder) {
     try {
-      return await this.update(idOrder, obj);
+      return await this.update(idOrder, { status: "en stock" });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async changeToPlaced(idOrder) {
+    try {
+      return await this.update(idOrder, { status: "colocado" });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async placeDevice(idOrder, idDevice, idSecretariat){
+    try {
+      const order = await this.getById(idOrder);
+      for (let index = 0; index < order.devices.length; index++) {
+        if(order.devices[index].device.equals(idDevice)){
+          order.devices[index].secretariat = idSecretariat;
+          order.devices[index].placementDate = Date.now();
+        }
+      }
+      await order.save();
+      return order
     } catch (error) {
       throw new Error(error);
     }

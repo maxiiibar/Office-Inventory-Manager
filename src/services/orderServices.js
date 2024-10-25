@@ -21,9 +21,39 @@ export default class NotaPedidoServices extends Services {
     try {
       const order = await this.dao.getById(idOrder);
       if (!order) return null;
-      const device = await this.dao.getById(idDevice);
-      if (!device) return null;
+      // const device = await deviceDao.getById(idDevice);
+      // if (!device) return null;
       return await this.dao.addDeviceToOrder(idOrder, idDevice);
-    } catch (error) {}
+    } catch (error) {
+      throw new Error(error)
+    }
   }
+
+  async changeToInStock(idOrder){
+    try {
+      const order = await this.getById(idOrder);
+      if(!order) return null;
+      return await this.dao.changeToInStock(idOrder)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
+  async changeToPlaced(idOrder){
+    try {
+      const order = await this.getById(idOrder);
+      if(!order) return null;
+      return await this.dao.changeToPlaced(idOrder)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
+  // async addDeviceToOrder(idOrder, idDevice){
+  //   try {
+      
+  //   } catch (error) {
+      
+  //   }
+  // }
 }
