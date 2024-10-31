@@ -9,7 +9,7 @@ const DevicesSchema = new Schema({
     type: [
       {
         type: Types.ObjectId,
-        ref: "printer",
+        ref: "devices",
       },
     ],
     default: [],
@@ -19,7 +19,7 @@ const DevicesSchema = new Schema({
     type: [
       {
         type: Types.ObjectId,
-        ref: "toner",
+        ref: "devices",
       },
     ],
     default: [],

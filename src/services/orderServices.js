@@ -49,7 +49,7 @@ export default class NotaPedidoServices extends Services {
     }
   }
 
-  // async addDeviceToOrder(idOrder, idDevice){
+  // async placeDevice(idOrder, idDevice, idSecretariat){
   //   try {
       
   //   } catch (error) {

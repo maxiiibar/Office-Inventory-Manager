@@ -16,7 +16,7 @@ export default class OrderDao extends MongoDao {
 
   async getBySupplier(supplier) {
     try {
-      return this.model.find({ supplier });
+      return await this.model.find({ supplier });
     } catch (error) {
       throw new Error(error);
     }
