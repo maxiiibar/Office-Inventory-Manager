@@ -22,9 +22,31 @@ export default class DeviceDao extends MongoDao {
     }
   }
 
+  async addCompatiblePrinter(idDevice, idPrinter) {
+    try {
+      const device = await this.getById(idDevice);
+      device.compatiblePrinters.push(idPrinter);
+      await device.save();
+      return device;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   async getCompatibleToners(idDevice) {
     try {
       return await this.getById(idDevice).compatibleToners;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async addCompatibleToner(idDevice, idToner) {
+    try {
+      const device = await this.getById(idDevice);
+      device.compatibleToners.push(idToner);
+      await device.save();
+      return device;
     } catch (error) {
       throw new Error(error);
     }
