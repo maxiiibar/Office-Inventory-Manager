@@ -14,17 +14,17 @@ export default class DeviceDao extends MongoDao {
     }
   }
 
-  async getCompatiblePrinters(idDevice) {
+  async getCompatiblePrinters(idToner) {
     try {
-      return await this.getById(idDevice).compatiblePrinters;
+      return await this.getById(idToner).compatiblePrinters;
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async addCompatiblePrinter(idDevice, idPrinter) {
+  async addCompatiblePrinter(idToner, idPrinter) {
     try {
-      const device = await this.getById(idDevice);
+      const device = await this.getById(idToner);
       device.compatiblePrinters.push(idPrinter);
       await device.save();
       return device;
@@ -33,17 +33,17 @@ export default class DeviceDao extends MongoDao {
     }
   }
 
-  async getCompatibleToners(idDevice) {
+  async getCompatibleToners(idPrinter) {
     try {
-      return await this.getById(idDevice).compatibleToners;
+      return await this.getById(idPrinter).compatibleToners;
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async addCompatibleToner(idDevice, idToner) {
+  async addCompatibleToner(idPrinter, idToner) {
     try {
-      const device = await this.getById(idDevice);
+      const device = await this.getById(idPrinter);
       device.compatibleToners.push(idToner);
       await device.save();
       return device;

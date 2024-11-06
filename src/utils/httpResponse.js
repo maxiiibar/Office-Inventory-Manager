@@ -4,6 +4,7 @@ const HttpStatus = {
   UNAUTHORIZED: 401,
   NOT_FOUND: 404,
   FORBIDDEN: 403,
+  CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500,
 };
 
@@ -14,6 +15,7 @@ const errorsDictionary = {
   UNAUTHORIZED: "You are not authorized to access this resource.",
   NOT_FOUND: "The requested resource was not found.",
   FORBIDDEN: "Access to this resource is forbidden.",
+  CONFLICT: "The request could not be processed because of conflict in the request.",
   INTERNAL_SERVER_ERROR:
     "An internal server error occurred. Please try again later.",
 };
@@ -57,6 +59,14 @@ export default class HttpResponse {
       message: errorsDictionary.FORBIDDEN,
       error: data,
     });
+  }
+
+  Conflict(res, data) {
+    return res.status(HttpStatus.CONFLICT).json({
+      status: HttpStatus.CONFLICT,
+      message: errorsDictionary.CONFLICT,
+      error: data,
+    })
   }
 
   ServerError(res, data) {
