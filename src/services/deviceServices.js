@@ -79,18 +79,28 @@ export default class DeviceServices extends Services {
         "proyector",
       ];
       const response = types.find((element) => element === type);
-      if (!response) return -1;
-      const devices = await this.dao.getByType(type);
-      if (devices.length == 0) return -2;
-      return devices;
+      if (!response) return null;
+      return await this.dao.getByType(type);
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async getDescription(idDevice) {
+  async setDescription(idDevice, description) {
     try {
-      return await this.dao.getDescription(idDevice);
+      const response = await this.getById(idDevice);
+      if (!response) return null;
+      return await this.dao.setDescription(idDevice, description);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async setImage(idDevice, image) {
+    try {
+      const response = await this.getById(idDevice);
+      if (!response) return null;
+      return await this.dao.setImage(idDevice, image);
     } catch (error) {
       throw new Error(error);
     }

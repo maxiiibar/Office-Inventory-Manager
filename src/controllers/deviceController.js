@@ -61,7 +61,7 @@ export default class DeviceController extends Controller {
       next(error);
     }
   };
-  
+
   getCompatibleToners = async (req, res, next) => {
     try {
       const { idPrinter } = req.params;
@@ -73,8 +73,7 @@ export default class DeviceController extends Controller {
       next(error);
     }
   };
-  
-  
+
   addCompatibleToner = async (req, res, next) => {
     try {
       const { idPrinter, idToner } = req.params;
@@ -104,18 +103,36 @@ export default class DeviceController extends Controller {
     }
   };
 
-  // getByType = async (req, res, next)  => {
-  //   try {
-  //     const { type } = req.params;
-  //     const response = await this.service.getByType(type);
-  //     switch(response){
-  //       case -1:
-  //         return httpResponse.BadRequest(res, 'Invalid type')
-  //       case -2:
+  getByType = async (req, res, next) => {
+    try {
+      const { type } = req.params;
+      const response = await this.service.getByType(type);
+      if (!response) return httpResponse.BadRequest(res, "Invalid type.");
+      return response;
+    } catch (error) {
+      next(error);
+    }
+  };
 
-  //     }
-  //   } catch (error) {
-      
-  //   }
-  // }
+  setDescription = async (req, res, next) => {
+    try {
+      const { idDevice, description } = req.params;
+      const response = await this.service.setDescription(idDevice, description);
+      if (!response) return httpResponse.NotFound(res, "Device not found.");
+      return httpResponse.Ok(res, response);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  setImage = async (req, res, next) => {
+    try {
+      const { idDevice, image } = req.params;
+      const response = await this.service.setImage(idDevice, image);
+      if (!response) return httpResponse.NotFound(res, "Device not found.");
+      return httpResponse.Ok(res, response);
+    } catch (error) {
+      next(error);
+    }
+  };
 }

@@ -60,9 +60,23 @@ export default class DeviceDao extends MongoDao {
     }
   }
 
-  async getDescription(idDevice) {
+  async setDescription(idDevice, description) {
     try {
-      return await this.getById(idDevice).description;
+      const device = await this.getById(idDevice);
+      device.description = description;
+      await device.save();
+      return device;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async setImage(idDevice, image) {
+    try {
+      const device = await this.getById(idDevice);
+      device.image = image;
+      await device.save();
+      return device;
     } catch (error) {
       throw new Error(error);
     }

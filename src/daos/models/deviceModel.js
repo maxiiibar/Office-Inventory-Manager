@@ -42,6 +42,10 @@ const DevicesSchema = new Schema({
     type: String,
     required: true,
   },
+  image: {
+    type: String,
+    required: true,
+  },
 });
 
 export const DeviceModel = model("devices", DevicesSchema);
