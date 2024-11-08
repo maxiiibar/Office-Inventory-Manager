@@ -105,4 +105,34 @@ export default class DeviceServices extends Services {
       throw new Error(error);
     }
   }
+
+  async delete(idDevice) {
+    try {
+      const device = await this.getById(idDevice);
+      let compatibles, type;
+      if (!device) return null;
+      if (device.type == "toner") {
+        compatibles = device.compatiblePrinters;
+        type = "toner";
+      } else if (device.type == "impresora") {
+        compatibles = device.compatibleToners;
+        type = "impresora";
+      } else {
+        return await this.dao.delete(idDevice);
+      }
+      for (let index = 0; index < compatibles.length; index++) {
+        const dispositivo = await this.getById(compatibles[index]);
+        if (type == "toner") {
+          const indice = dispositivo.compatiblePrinters.indexOf(idDevice);
+          if (indice !== -1) dispositivo.compatiblePrinters.splice(indice, 1);
+        } else {
+          const indice = dispositivo.compatibleToners.indexOf(idDevice);
+          if (indice !== -1) dispositivo.compatibleToners.splice(indice, 1);
+        }
+      }
+      return await this.dao.delete(idDevice);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

@@ -11,7 +11,7 @@ export default class DeviceController extends Controller {
 
   getByName = async (req, res, next) => {
     try {
-      const { name } = req.params;
+      const { name } = req.body;
       const response = await this.service.getByName(name);
       if (!response)
         return httpResponse.NotFound(res, "There is no device with that name.");
