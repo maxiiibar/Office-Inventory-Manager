@@ -1,5 +1,5 @@
-import Services from "./classServices";
-import DeviceDao from "../daos/deviceDao";
+import Services from "./classServices.js";
+import DeviceDao from "../daos/deviceDao.js";
 const deviceDao = new DeviceDao();
 
 export default class DeviceServices extends Services {
@@ -7,18 +7,11 @@ export default class DeviceServices extends Services {
     super(deviceDao);
   }
 
-  async getByName(name) {
-    try {
-      return await this.dao.getByName(name);
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
   async getCompatiblePrinters(idToner) {
     try {
       const device = await this.getById(idToner);
-      if (device.type != "toner") return null;
+      if (!device) return null;
+      if (device.type !== "toner") return null;
       return await this.dao.getCompatiblePrinters(idToner);
     } catch (error) {
       throw new Error(error);
@@ -29,10 +22,10 @@ export default class DeviceServices extends Services {
     try {
       const toner = await this.getById(idToner);
       if (!toner) return -1;
-      if (toner.type != "toner") return -2;
+      if (toner.type !== "toner") return -2;
       const printer = await this.getById(idPrinter);
       if (!printer) return -3;
-      if (printer.type != "impresora") return -4;
+      if (printer.type !== "impresora") return -4;
       const printers = toner.compatiblePrinters;
       if (printers.includes(idPrinter)) return -5;
       return await this.dao.addCompatiblePrinter(idToner, idPrinter);
@@ -44,7 +37,7 @@ export default class DeviceServices extends Services {
   async getCompatibleToners(idPrinter) {
     try {
       const device = await this.getById(idPrinter);
-      if (device.type != "impresora") return null;
+      if (device.type !== "impresora") return null;
       return await this.dao.getCompatibleToners(idPrinter);
     } catch (error) {
       throw new Error(error);
@@ -55,10 +48,10 @@ export default class DeviceServices extends Services {
     try {
       const printer = await this.getById(idPrinter);
       if (!printer) return -1;
-      if (printer.type != "impresora") return -2;
+      if (printer.type !== "impresora") return -2;
       const toner = await this.getById(idToner);
       if (!toner) return -3;
-      if (toner.type != "toner") return -4;
+      if (toner.type !== "toner") return -4;
       const toners = printer.compatibleToners;
       if (toners.includes(idToner)) return -5;
       return await this.dao.addCompatibleToner(idPrinter, idToner);

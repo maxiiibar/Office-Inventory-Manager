@@ -6,14 +6,6 @@ export default class DeviceDao extends MongoDao {
     super(DeviceModel);
   }
 
-  async getByName(name) {
-    try {
-      return await this.model.findOne({ name });
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
   async getCompatiblePrinters(idToner) {
     try {
       return await this.getById(idToner).compatiblePrinters;

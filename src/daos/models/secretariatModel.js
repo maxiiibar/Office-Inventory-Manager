@@ -1,22 +1,22 @@
 import { Schema, model, Types } from "mongoose";
 
-const SecretariaSchema = new Schema({
-  nombre: {
+const SecretariatSchema = new Schema({
+  name: {
     type: String,
     required: true,
   },
-  impresoras: [
+  printers: [
     {
       type: Types.ObjectId,
-      ref: "Impresora",
+      ref: "devices",
     },
   ],
-  notasDePedido: [
+  orders: [
     {
       type: Types.ObjectId,
-      ref: "NotaPedido",
+      ref: "orders",
     },
   ],
 });
 
-export const SecretariaModel = model("Secretaria", SecretariaSchema);
+export const SecretariatModel = model("secretariat", SecretariatSchema);

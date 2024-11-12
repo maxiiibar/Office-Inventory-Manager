@@ -7,8 +7,6 @@ const router = Router();
 
 router.get("/", [checkAuth], controller.getAll);
 
-router.get("/name", [checkAuth], controller.getByName);
-
 router.get("/:id", [checkAuth], controller.getById);
 
 router.get("/:type", [checkAuth], controller.getByType);

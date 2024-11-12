@@ -9,18 +9,6 @@ export default class DeviceController extends Controller {
     super(deviceServices);
   }
 
-  getByName = async (req, res, next) => {
-    try {
-      const { name } = req.body;
-      const response = await this.service.getByName(name);
-      if (!response)
-        return httpResponse.NotFound(res, "There is no device with that name.");
-      return httpResponse.Ok(res, response);
-    } catch (error) {
-      next(error);
-    }
-  };
-
   getCompatiblePrinters = async (req, res, next) => {
     try {
       const { idToner } = req.params;
