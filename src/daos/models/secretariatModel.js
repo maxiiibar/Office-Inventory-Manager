@@ -7,8 +7,14 @@ const SecretariatSchema = new Schema({
   },
   printers: [
     {
-      type: Types.ObjectId,
-      ref: "devices",
+      printer: {
+        type: Types.ObjectId,
+        ref: "devices",
+      },
+      quantity: {
+        type: Number,
+        default: 1,
+      },
     },
   ],
   orders: [

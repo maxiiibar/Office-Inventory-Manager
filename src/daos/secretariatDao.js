@@ -17,7 +17,18 @@ export default class SecretariatDao extends MongoDao {
   async addPrinter(idSecretariat, idPrinter) {
     try {
       const secretariat = await this.getById(idSecretariat);
-      secretariat.printers.push(idPrinter);
+      const existingPrinter = secretariat.printers.find(
+        (printerObj) => printerObj.printer.toString() === idPrinter
+      );
+  
+      if (existingPrinter) {
+        existingPrinter.quantity++;
+      } else {
+        secretariat.printers.push({
+          printer: idPrinter,
+          quantity: 1,
+        });
+      }
       await secretariat.save();
       return secretariat;
     } catch (error) {
